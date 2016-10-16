@@ -19,10 +19,10 @@
 @industrial-line: #C6B3C3;  // Lch(75,11,330)
 @railway: @industrial;
 @railway-line: @industrial-line;
-@farmland: #f2e9d7;
+@farmland: #f2e9d7;         /* de */
 @farmland-line: #d6c4ab;    // Lch(80,15,80)
 
-@farmyard: #ead8bd;
+@farmyard: #ead8bd;         /* de */
 @farmyard-line: #D1B48C;    // Lch(75,25,80)
 
 // --- Other ----
@@ -438,7 +438,7 @@
       [way_pixels >= 64] { polygon-pattern-gamma: 0.3;  }
     }
   }
- 
+
   [feature = 'wetland_swamp'][zoom >= 8] {
     polygon-fill: @forest;
     [way_pixels >= 4]  { polygon-gamma: 0.75; }
@@ -628,21 +628,21 @@
   }
   //Also landuse = forest, converted in the SQL
   [natural = 'wood'][zoom >= 13]::wood {
-    //polygon-pattern-alignment: global;
-    //polygon-pattern-file: url('symbols-de/wood_mixed.png');
+    //polygon-pattern-alignment: global;                        /* de */
+    //polygon-pattern-file: url('symbols-de/wood_mixed.png');   /* de */
     opacity: 0.4; // The entire layer has opacity to handle overlapping forests
-    [leaf_type = 'broadleaved'] {
-      polygon-pattern-file: url('symbols-de/wood_broad.png');
-      polygon-pattern-alignment: global;
-    }
-    [leaf_type = 'needleleaved'] {
-      polygon-pattern-file: url('symbols-de/wood_needle.png');
-      polygon-pattern-alignment: global;
-    }
-    [leaf_type = 'mixed'] {
-      polygon-pattern-file: url('symbols-de/wood_mixed.png');
-      polygon-pattern-alignment: global;
-    }
+    [leaf_type = 'broadleaved'] {                               /* de */
+      polygon-pattern-file: url('symbols-de/wood_broad.png');   /* de */
+      polygon-pattern-alignment: global;                        /* de */
+    }                                                           /* de */
+    [leaf_type = 'needleleaved'] {                              /* de */
+      polygon-pattern-file: url('symbols-de/wood_needle.png');  /* de */
+      polygon-pattern-alignment: global;                        /* de */
+    }                                                           /* de */
+    [leaf_type = 'mixed'] {                                     /* de */
+      polygon-pattern-file: url('symbols-de/wood_mixed.png');   /* de */
+      polygon-pattern-alignment: global;                        /* de */
+    }                                                           /* de */
   }
 }
 
@@ -724,7 +724,7 @@
       b/line-color: @tourism;
       b/line-opacity: 0.3;
       b/line-join: round;
-      b/line-cap: round;    
+      b/line-cap: round;
     }
     [zoom >= 17] {
       a/line-width: 2;

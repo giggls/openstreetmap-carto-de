@@ -6,7 +6,7 @@
 @transportation-text: #0066ff;
 @airtransport: #8461C4;
 @health-color: #da0092;
-@pharmacy-color: #008000;
+@pharmacy-color: #008000;  /* de */
 @amenity-brown: #734a08;
 @man-made-icon: #555;
 @landform-color: #d08f55;
@@ -348,7 +348,7 @@
 
   [feature = 'amenity_pharmacy'][zoom >= 17] {
     marker-file: url('symbols-de/pharmacy.16.svg');
-    marker-fill: @pharmacy-color;
+    marker-fill: @pharmacy-color;  /* de */
     marker-placement: interior;
     marker-clip: false;
   }
@@ -555,15 +555,15 @@
     marker-clip: false;
   }
 
-  [feature = 'historic_castle'][zoom >= 14] {
-    marker-file: url('symbols-de/atkis/burg.svg');
-    marker-fill: #000000;
-    marker-placement: interior;
-    marker-clip: false;
-    [ruins = 'yes'] {
-      marker-file: url('symbols-de/atkis/burgruine.svg');
-    }
-  }
+  [feature = 'historic_castle'][zoom >= 14] {             /* de */
+    marker-file: url('symbols-de/atkis/burg.svg');        /* de */
+    marker-fill: #000000;                                 /* de */
+    marker-placement: interior;                           /* de */
+    marker-clip: false;                                   /* de */
+    [ruins = 'yes'] {                                     /* de */
+      marker-file: url('symbols-de/atkis/burgruine.svg'); /* de */
+    }                                                     /* de */
+  }                                                       /* de */
 
   [feature = 'shop_other'][zoom >= 17] {
     marker-fill: @shop-icon;
@@ -833,14 +833,14 @@
     marker-clip: false;
     marker-fill: @shop-icon;
   }
-  
+
   [feature = 'shop_electronics'][zoom >= 17] {
     marker-file: url('symbols/shop_electronics.16.svg');
     marker-placement: interior;
     marker-clip: false;
     marker-fill: @shop-icon;
   }
-  
+
   [feature = 'shop_alcohol'],
   [feature = 'shop_wine'] {
     [zoom >= 17] {
@@ -850,28 +850,28 @@
       marker-fill: @shop-icon;
     }
   }
-  
+
   [feature = 'shop_optician'][zoom >= 17] {
     marker-file: url('symbols/shop_optician.16.svg');
     marker-placement: interior;
     marker-clip: false;
     marker-fill: @shop-icon;
   }
-  
+
   [feature = 'shop_outdoor'][zoom >= 17] {
     marker-file: url('symbols/outdoor-14.svg');
     marker-placement: interior;
     marker-clip: false;
     marker-fill: @shop-icon;
   }
-  
+
   [feature = 'shop_furniture'][zoom >= 17] {
     marker-file: url('symbols/shop_furniture.16.svg');
     marker-placement: interior;
     marker-clip: false;
     marker-fill: @shop-icon;
   }
-  
+
   [feature = 'shop_mobile_phone'][zoom >= 17] {
     marker-file: url('symbols/shop_mobile_phone.16.svg');
     marker-placement: interior;
@@ -1022,14 +1022,14 @@
     marker-fill: @airtransport;
   }
 
-  [feature = 'aeroway_aerodrome'][zoom < 14] {
-    [zoom >= 10][aeroway_class = 'INT-major'], 
-    [zoom >= 13][aeroway_class = 'INT-minor'] {
-      marker-file: url('symbols/aerodrome.svg');
-      marker-placement: interior;
-      marker-clip: false;
-      marker-fill: @airtransport;
-    }
+  [feature = 'aeroway_aerodrome'][zoom < 14] {    /* de */
+    [zoom >= 10][aeroway_class = 'INT-major'],    /* de */
+    [zoom >= 13][aeroway_class = 'INT-minor'] {   /* de */
+      marker-file: url('symbols/aerodrome.svg');  /* de */
+      marker-placement: interior;                 /* de */
+      marker-clip: false;                         /* de */
+      marker-fill: @airtransport;                 /* de */
+    }                                             /* de */
   }
 
   [feature = 'man_made_lighthouse'][zoom >= 15] {
@@ -1375,7 +1375,7 @@
   [feature = 'historic_memorial'][zoom >= 17],
   [feature = 'man_made_obelisk'][zoom >= 16],
   [feature = 'historic_monument'][zoom >= 16],
-  [feature = 'historic_castle'][zoom >= 16],
+  [feature = 'historic_castle'][zoom >= 16],  /* de */
   [feature = 'historic_archaeological_site'][zoom >= 17] {
     text-name: "[name]";
     text-size: @standard-text-size;
@@ -1386,10 +1386,10 @@
     text-halo-fill: @standard-halo-fill;
     text-wrap-width: @standard-wrap-width;
     text-placement: interior;
-    [feature = 'historic_castle'] {
-      text-fill: #000000;
-      text-dy: 13;
-    }
+    [feature = 'historic_castle'] { /* de */
+      text-fill: #000000;           /* de */
+      text-dy: 13;                  /* de */
+    }                               /* de */
   }
 
   [feature = 'leisure_miniature_golf'][zoom >= 17],
@@ -1471,7 +1471,7 @@
   [feature = 'boundary_national_park'],
   [feature = 'leisure_nature_reserve'] {
     [zoom >= 8][way_pixels > 3000][is_building = 'no'],
-    [zoom >= 17] {  
+    [zoom >= 17] {
       text-name: "[name]";
       text-size: @landcover-font-size;
       text-wrap-width: @landcover-wrap-width-size;
@@ -1918,9 +1918,9 @@
   [feature = 'amenity_dentist'],
   [feature = 'amenity_veterinary'] {
     [zoom >= 17] {
-      [feature = 'amenity_pharmacy'] {
-        text-fill: @pharmacy-color;
-      }
+      [feature = 'amenity_pharmacy'] {  /* de */
+        text-fill: @pharmacy-color;     /* de */
+      }                                 /* de */
       text-name: "[name]";
       text-size: @standard-text-size;
       text-dy: 12;
@@ -2175,22 +2175,22 @@
     text-wrap-width: @standard-wrap-width;
   }
 
-  [feature = 'aeroway_aerodrome'][zoom < 14] {
-    [zoom >= 10][aeroway_class = 'INT-major'],
-    [zoom >= 13][aeroway_class = 'INT-minor'] {
-      text-name: "[name]";
-      text-size: @standard-text-size;
-      text-fill: darken(@airtransport, 15%);
-      text-dy: -10;
-      text-face-name: @oblique-fonts;
-      text-halo-radius: @standard-halo-radius;
-      text-halo-fill: @standard-halo-fill;
-      text-placement: interior;
-      text-wrap-width: @standard-wrap-width;
-      [aeroway_class = 'INT-major'] {
-        text-name: "[name_and_iata]";
-      }
-    }
+  [feature = 'aeroway_aerodrome'][zoom < 14] {  /* de */
+    [zoom >= 10][aeroway_class = 'INT-major'],  /* de */
+    [zoom >= 13][aeroway_class = 'INT-minor'] { /* de */
+      text-name: "[name]";                      /* de */
+      text-size: @standard-text-size;           /* de */
+      text-fill: darken(@airtransport, 15%);    /* de */
+      text-dy: -10;                             /* de */
+      text-face-name: @oblique-fonts;           /* de */
+      text-halo-radius: @standard-halo-radius;  /* de */
+      text-halo-fill: @standard-halo-fill;      /* de */
+      text-placement: interior;                 /* de */
+      text-wrap-width: @standard-wrap-width;    /* de */
+      [aeroway_class = 'INT-major'] {           /* de */
+        text-name: "[name_and_iata]";           /* de */
+      }                                         /* de */
+    }                                           /* de */
   }
 
   [feature = 'amenity_hunting_stand'][zoom >= 17] {
@@ -2285,4 +2285,3 @@
     }
   }
 }
-

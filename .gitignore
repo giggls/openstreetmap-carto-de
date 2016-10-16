@@ -5,12 +5,11 @@ data/
 node_modules/
 localconfig.json
 # Generated at runtime by Python.
-*.pyc   
+*.pyc
 **/*.pyc
-project-de.mml
-project-de.yaml
-localconfig.js
-data
-tmp
-**kosmtik
-
+project-de.mml   # de
+project-de.yaml  # de
+localconfig.js   # de
+data             # de
+tmp              # de
+**kosmtik        # de

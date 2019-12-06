@@ -1,7 +1,9 @@
 # OpenStreetMap Carto German
 
 An adaptation of the "German" Mapnik style to the CartoCSS structure used by the international
-style. The rest of this README is the original text from the international style.
+style. The rest of this README is mostly the original text from the international style. 
+An important difference: We have added a hint 
+to the [installation instructions](https://github.com/giggls/openstreetmap-carto-de#installation).
 
 The style is designed to use with a HSTORE-only DATABASE in mind. In our production setup we are using
 the provided views to osm2pgsql tables with hstore to simulate columns.

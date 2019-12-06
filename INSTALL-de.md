@@ -1,6 +1,6 @@
 # OpenStreetMap Carto DE setup instructions
 
-The database scheme we use in german manik style does not use use separate
+The database scheme we use in german mapnik style does not use use separate
 database columns for different tags. Instead only one hstore column is used
 to provide all important tags (see hstore-only.style osm2pgsql style).
 

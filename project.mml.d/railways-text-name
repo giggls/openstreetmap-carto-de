@@ -6,17 +6,22 @@
       table: |-
         (SELECT
             way,
-            CASE WHEN railway = 'preserved' AND service IN ('spur', 'siding', 'yard') THEN 'INT-preserved-ssy'::text
-                 WHEN (railway = 'rail' AND service IN ('spur', 'siding', 'yard')) THEN 'INT-spur-siding-yard'
-                 WHEN (railway = 'tram' AND service IN ('spur', 'siding', 'yard')) THEN 'tram-service' ELSE railway END AS railway,
+            CASE
+              WHEN (railway = 'rail' AND service IN ('spur', 'siding', 'yard')) THEN 'INT-spur-siding-yard'
+              WHEN (railway = 'tram' AND service IN ('spur', 'siding', 'yard')) THEN 'tram-service'
+              ELSE railway
+            END AS railway,
             CASE WHEN (tunnel = 'yes' OR tunnel = 'building_passage' OR covered = 'yes') THEN 'yes' ELSE 'no' END AS tunnel,
             tags->'highspeed' as highspeed,
             tags->'usage' as usage,
             construction,
-            localized_name_second AS name
+            localized_name_second AS name,
+            (CASE
+              WHEN tags->'railway:preserved' = 'yes' THEN 'yes'
+              ELSE 'no'
+            END) AS preserved
           FROM planet_osm_line l
-          WHERE railway IN ('rail', 'subway', 'narrow_gauge', 'light_rail', 'preserved', 'funicular',
-                            'monorail', 'miniature', 'tram', 'disused', 'construction')
+          WHERE railway IN ('rail', 'subway', 'narrow_gauge', 'light_rail', 'funicular', 'monorail', 'miniature', 'tram', 'disused', 'construction')
             AND (tunnel IS NULL OR NOT tunnel IN ('yes', 'building_passage'))
             AND highway IS NULL -- Prevent duplicate rendering
             AND name IS NOT NULL

@@ -57,6 +57,12 @@ the generation of the views as follows:
 For compatibility reasons, the views are given the same name as the default
 osm2pgsql tables used in upstream Openstreetmap Carto style!
 
+Since upstream version v5.9.0 carto it bis also necessary to apply ```functions.sql```:
+
+```
+psql -d osm -f functions.sql
+```
+
 Thus an unmodified version of the upstream style will also work fine using this
 slightly different database layout.
 

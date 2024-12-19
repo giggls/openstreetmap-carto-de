@@ -11,13 +11,10 @@ localconfig.js
 .kosmtik-config.yml
 .env
 .DS_Store
-test-*.png
 
 # german style additions
 project-hrb.mml
 project-mod.mml
-# output of rendering tests
-test*.png
 project.mml
 
 # Generated at runtime by Python.

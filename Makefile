@@ -44,7 +44,6 @@ test: $(TO)/test-z03.png $(TO)/test-z04.png $(TO)/test-z05.png $(TO)/test-z06.pn
       $(TO)/test-hostel.png $(TO)/test-hospital.png $(TO)/test-sport.png $(TO)/test-iata.png $(TO)/test-l10n1.png $(TO)/test-l10n2.png\
       $(TO)/test-l10n3.png $(TO)/test-l10n4.png $(TO)/test-foot-cycle-path-track.png $(TO)/test-living-street.png\
       $(TO)/test-proposed.png $(TO)/test-construction.png $(TO)/test-unpaved.png $(TO)/test-muhu.png $(TO)/test-hiiumaa.png
-	mkdir -p testtiles
 
 $(TO)/test-z03.png: $(XMLSTYLE)
 	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /3/3/2.png

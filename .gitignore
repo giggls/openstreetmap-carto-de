@@ -15,3 +15,5 @@ localconfig.js
 # Generated at runtime by Python.
 *.pyc
 **/*.pyc
+
+testoutput

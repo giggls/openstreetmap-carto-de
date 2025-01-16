@@ -133,7 +133,7 @@ $(TO)/test-sport.png: $(XMLSTYLE)
 	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /16/34311/22505.png
 # Airports incl. IATA code
 $(TO)/test-iata.png: $(XMLSTYLE)
-	 ./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /11/1072/694.png
+	 ./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /12/2145/1388.png
 # l10n (country-names)
 $(TO)/test-l10n1.png: $(XMLSTYLE)
 	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /3/5/3.png
@@ -148,7 +148,7 @@ $(TO)/test-l10n4.png: $(XMLSTYLE)
 	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /10/873/396.png
 # test unpaved
 $(TO)/test-unpaved.png: $(XMLSTYLE)
-	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /19/297774/160376.png
+	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /19/298300/160169.png
 # Muhu
 $(TO)/test-muhu.png: $(XMLSTYLE)
 	./scripts/render_single_tile.py -t -s $(XMLSTYLE) -o $@ -u /11/1156/610.png

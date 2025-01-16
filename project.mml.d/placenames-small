@@ -7,7 +7,7 @@
         (SELECT
             way,
             place,
-            localized_name_second AS name
+            name
           FROM planet_osm_point
           WHERE place IN ('village', 'hamlet')
              AND name IS NOT NULL

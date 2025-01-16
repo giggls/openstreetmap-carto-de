@@ -8,7 +8,7 @@
             way,
             waterway,
             lock,
-            localized_name_second AS name,
+            name,
             "natural",
             tags->'lock_name' AS lock_name,
             CASE WHEN tags->'intermittent' IN ('yes')

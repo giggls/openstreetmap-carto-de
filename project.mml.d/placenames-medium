@@ -18,7 +18,7 @@
                 osm_id,
                 way,
                 place,
-                localized_name_second AS name,
+                name,
                 (
                   (CASE
                     WHEN (tags->'population' ~ '^[0-9]{1,8}$') THEN (tags->'population')::INTEGER

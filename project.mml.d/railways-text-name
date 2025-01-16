@@ -15,7 +15,7 @@
             tags->'highspeed' as highspeed,
             tags->'usage' as usage,
             construction,
-            localized_name_second AS name,
+            name,
             (CASE
               WHEN tags->'railway:preserved' = 'yes' THEN 'yes'
               ELSE 'no'

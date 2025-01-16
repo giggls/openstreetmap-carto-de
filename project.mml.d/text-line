@@ -9,7 +9,7 @@
             NULL as way_pixels,
             COALESCE('aerialway_' || aerialway, 'attraction_' || CASE WHEN tags @> 'attraction=>water_slide' THEN 'water_slide' END, 'leisure_' || leisure, 'man_made_' || man_made, 'waterway_' || waterway, 'natural_' || "natural", 'golf_' || (tags->'golf')) AS feature,
             access,
-            localized_name AS name,
+            name,
             tags->'operator' as operator,
             ref,
             NULL AS way_area,

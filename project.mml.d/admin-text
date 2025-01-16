@@ -6,7 +6,7 @@
       table: |-
         (SELECT
             way,
-            localized_name_first AS name,
+            name,
             admin_level,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels
           FROM planet_osm_polygon

@@ -8,7 +8,7 @@
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
             highway,
-            localized_streetname AS name
+            name
           FROM planet_osm_polygon
           WHERE ST_PointOnSurface(way) && !bbox!
             AND name IS NOT NULL

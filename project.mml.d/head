@@ -14,7 +14,7 @@ _parts:
     srs: *srs
   osm2pgsql: &osm2pgsql
     type: "postgis"
-    dbname: "osm"
+    dbname: "gis"
     key_field: ""
     geometry_field: "way"
     srid: *srid

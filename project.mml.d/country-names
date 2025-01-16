@@ -14,7 +14,7 @@
               ORDER BY ST_Area(geom::geography) DESC
               LIMIT 1) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
-            country_name AS name
+            name
           FROM planet_osm_polygon
           WHERE way && !bbox!
             AND name IS NOT NULL

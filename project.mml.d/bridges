@@ -20,8 +20,8 @@
             layernotnull
           FROM ( -- subselect that contains both roads and rail/aero
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'highway_' || (CASE WHEN highway = 'path' THEN carto_path_type(bicycle, horse) ELSE highway END) AS feature,
@@ -50,8 +50,8 @@
                 AND highway IS NOT NULL -- end of road select
             UNION ALL
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'railway_' || (CASE

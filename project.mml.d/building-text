@@ -5,7 +5,7 @@
       <<: *osm2pgsql
       table: |-
         (SELECT
-            localized_name_second AS name,
+            name,
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels
           FROM planet_osm_polygon

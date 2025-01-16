@@ -14,7 +14,7 @@ _parts:
     srs: *srs
   osm2pgsql: &osm2pgsql
     type: "postgis"
-    dbname: "osm"
+    dbname: "gis"
     key_field: ""
     geometry_field: "way"
     srid: *srid
@@ -96,7 +96,7 @@ Layer:
             way, name, religion, way_pixels, is_building, surface,
             COALESCE(aeroway, golf, amenity, wetland, power, landuse, leisure, man_made, "natural", shop, tourism, highway, railway) AS feature
           FROM (SELECT
-              way, localized_name_second AS name,
+              way, name,
               surface,
               ('aeroway_' || (CASE WHEN aeroway IN ('apron', 'aerodrome') THEN aeroway END)) AS aeroway,
               ('golf_' || (CASE WHEN (tags->'golf') IN ('rough', 'fairway', 'driving_range', 'water_hazard', 'green', 'bunker', 'tee') THEN tags->'golf' ELSE NULL END)) AS golf,
@@ -198,7 +198,7 @@ Layer:
         (SELECT
             way,
             waterway,
-            localized_name_second AS name,
+            name,
             CASE WHEN tags->'intermittent' IN ('yes')
               OR tags->'seasonal' IN ('yes', 'spring', 'summer', 'autumn', 'winter', 'wet_season', 'dry_season')
               THEN 'yes' ELSE 'no' END AS int_intermittent,
@@ -459,8 +459,8 @@ Layer:
             layernotnull
           FROM ( -- subselect that contains both roads and rail
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'highway_' || (CASE WHEN highway = 'path' THEN carto_path_type(bicycle, horse) ELSE highway END) AS feature,
@@ -489,8 +489,8 @@ Layer:
                 AND highway IS NOT NULL -- end of road select
             UNION ALL
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'railway_' || (CASE
@@ -699,8 +699,8 @@ Layer:
             layernotnull
           FROM ( -- subselect that contains both roads and rail/aero
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'highway_' || (CASE WHEN highway = 'path' THEN carto_path_type(bicycle, horse) ELSE highway END) AS feature,
@@ -732,8 +732,8 @@ Layer:
                 AND highway IS NOT NULL -- end of road select
             UNION ALL
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'railway_' || (CASE
@@ -934,8 +934,8 @@ Layer:
             layernotnull
           FROM ( -- subselect that contains both roads and rail/aero
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'highway_' || (CASE WHEN highway = 'path' THEN carto_path_type(bicycle, horse) ELSE highway END) AS feature,
@@ -964,8 +964,8 @@ Layer:
                 AND highway IS NOT NULL -- end of road select
             UNION ALL
             SELECT
-                way, proposed,
-                case when proposed in ('residential','unclassified','road','living_street') or
+                way, tags->'proposed' as proposed,
+                case when tags->'proposed' in ('residential','unclassified','road','living_street') or
                           construction in ('residential','unclassified','road','living_street')
                 then 'yes' else 'no' end as proposed_construction_minor,
                 'railway_' || (CASE
@@ -1116,9 +1116,9 @@ Layer:
          ST_DistanceSphere(st_transform(st_pointn(way2,1),4326),st_transform(st_pointn(way2,3),4326)) as d13,
          cos(st_y(st_transform(st_pointn(way2,1),4326))/180*3.1415927) as coslat, degrees(st_azimuth(st_pointn(way2,1),st_pointn(way2,2))) as a12,
          degrees(st_azimuth(st_pointn(way2,2),st_pointn(way2,3))) as a23 from                                                                     
-         (select *, st_area(way) as way_area, ST_ExteriorRing(ST_SimplifyPreserveTopology(way,100)) as way2 from (select (st_dump(way)).geom as way, sport, surface, access
+         (select *, st_area(way) as way_area, ST_ExteriorRing(ST_SimplifyPreserveTopology(way,100)) as way2 from (select (st_dump(way)).geom as way, tags->'sport' AS sport, surface, access
           from planet_osm_polygon
-          WHERE sport in ('tennis','soccer','basketball','rugby','rugby_union','rugby_league','american_football')
+          WHERE tags->'sport' in ('tennis','soccer','basketball','rugby','rugby_union','rugby_league','american_football')
             AND (building IS NULL OR building = 'no')
             AND leisure = 'pitch'
             AND way && !bbox!) as dump) as simplified) as simplified2)
@@ -1287,7 +1287,7 @@ Layer:
               ORDER BY ST_Area(geom::geography) DESC
               LIMIT 1) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
-            country_name AS name
+            name
           FROM planet_osm_polygon
           WHERE way && !bbox!
             AND name IS NOT NULL
@@ -1308,7 +1308,7 @@ Layer:
       table: |-
         (SELECT
             way,
-            localized_name_first AS name,
+            name,
             CASE
               WHEN (tags->'population' ~ '^[0-9]{1,8}$') THEN (tags->'population')::INTEGER ELSE 0
             END as population,
@@ -1331,7 +1331,7 @@ Layer:
         (SELECT
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
-            localized_name_first AS name,
+            name,
             admin_level,
             ref
           FROM planet_osm_polygon
@@ -1366,7 +1366,7 @@ Layer:
                 osm_id,
                 way,
                 place,
-                localized_name_second AS name,
+                name,
                 (
                   (CASE
                     WHEN (tags->'population' ~ '^[0-9]{1,8}$') THEN (tags->'population')::INTEGER
@@ -1400,7 +1400,7 @@ Layer:
         (SELECT
             way,
             place,
-            localized_name_second AS name
+            name
           FROM planet_osm_point
           WHERE place IN ('village', 'hamlet')
              AND name IS NOT NULL
@@ -1438,7 +1438,7 @@ Layer:
           FROM
           (SELECT
               ST_PointOnSurface(way) AS way,
-              localized_name_second AS name,
+              name,
               ref,
               railway,
               aerialway,
@@ -1450,7 +1450,7 @@ Layer:
           UNION ALL
           SELECT
               way,
-              localized_name_second AS name,
+              name,
               ref,
               railway,
               aerialway,
@@ -1484,7 +1484,7 @@ Layer:
             highway,
             junction,
             ref,
-            localized_streetname AS name,
+            name,
             NULL AS way_pixels
           FROM planet_osm_point
           WHERE way && !bbox!
@@ -1515,7 +1515,7 @@ Layer:
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
             man_made,
-            localized_streetname AS name
+            name
           FROM planet_osm_polygon
           WHERE ST_PointOnSurface(way) && !bbox!
             AND name IS NOT NULL
@@ -1535,7 +1535,7 @@ Layer:
         (SELECT
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
-            localized_name_first AS name,
+            name,
             admin_level
           FROM planet_osm_polygon
           WHERE ST_PointOnSurface(way) && !bbox!
@@ -1717,7 +1717,7 @@ Layer:
             FROM
               (SELECT
                   ST_PointOnSurface(way) AS way,
-                  localized_name_second AS name,
+                  name,
                   access,
                   aeroway,
                   amenity,
@@ -1747,7 +1747,7 @@ Layer:
               UNION ALL
               SELECT
                   way,
-                  localized_name_second AS name,
+                  name,
                   access,
                   aeroway,
                   amenity,
@@ -1930,7 +1930,7 @@ Layer:
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels,
             highway,
-            localized_streetname AS name
+            name
           FROM planet_osm_polygon
           WHERE ST_PointOnSurface(way) && !bbox!
             AND name IS NOT NULL
@@ -1956,7 +1956,7 @@ Layer:
             CASE WHEN substr(highway, length(highway)-4, 5) = '_link' THEN substr(highway, 0, length(highway)-4) ELSE highway END,
             CASE WHEN (tunnel = 'yes' OR tunnel = 'building_passage' OR covered = 'yes') THEN 'yes' ELSE 'no' END AS tunnel,
             construction,
-            localized_streetname AS name,
+            name,
             CASE
               WHEN oneway IN ('yes', '-1') THEN oneway
               WHEN junction IN ('roundabout') AND (oneway IS NULL OR NOT oneway IN ('no', 'reversible')) THEN 'yes'
@@ -1988,7 +1988,7 @@ Layer:
             CASE WHEN highway = 'path' THEN carto_path_type(bicycle, horse) ELSE highway END AS highway,
             construction,
             CASE WHEN (tracktype = 'grade1' OR surface = 'paved') THEN 'paved' ELSE 'unpaved' END AS int_surface,
-            localized_streetname AS name,
+            name,
             CASE
               WHEN oneway IN ('yes', '-1') THEN oneway
               WHEN junction IN ('roundabout') AND (oneway IS NULL OR NOT oneway IN ('no', 'reversible')) THEN 'yes'
@@ -2019,7 +2019,7 @@ Layer:
             tags->'highspeed' as highspeed,
             tags->'usage' as usage,
             construction,
-            localized_name_second AS name,
+            name,
             (CASE
               WHEN tags->'railway:preserved' = 'yes' THEN 'yes'
               ELSE 'no'
@@ -2101,7 +2101,7 @@ Layer:
                                        THEN boundary END,
               'leisure_' || CASE WHEN leisure IN ('nature_reserve') THEN leisure END
             ) AS feature,
-            localized_name_second AS name,
+            name,
             CASE WHEN building = 'no' OR building IS NULL THEN 'no' ELSE 'yes' END AS is_building -- always no with the where conditions
           FROM planet_osm_polygon
           WHERE ST_PointOnSurface(way) && !bbox!
@@ -2132,7 +2132,7 @@ Layer:
             NULL as way_pixels,
             COALESCE('aerialway_' || aerialway, 'attraction_' || CASE WHEN tags @> 'attraction=>water_slide' THEN 'water_slide' END, 'leisure_' || leisure, 'man_made_' || man_made, 'waterway_' || waterway, 'natural_' || "natural", 'golf_' || (tags->'golf')) AS feature,
             access,
-            localized_name AS name,
+            name,
             tags->'operator' as operator,
             ref,
             NULL AS way_area,
@@ -2169,7 +2169,7 @@ Layer:
       <<: *osm2pgsql
       table: |-
         (SELECT
-            localized_name_second AS name,
+            name,
             ST_PointOnSurface(way) AS way,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels
           FROM planet_osm_polygon
@@ -2238,7 +2238,7 @@ Layer:
             way,
             waterway,
             lock,
-            localized_name_second AS name,
+            name,
             "natural",
             tags->'lock_name' AS lock_name,
             CASE WHEN tags->'intermittent' IN ('yes')
@@ -2264,7 +2264,7 @@ Layer:
       table: |-
         (SELECT
             way,
-            localized_name_second AS name
+            name
           FROM planet_osm_line
           WHERE route = 'ferry'
             AND osm_id > 0
@@ -2280,7 +2280,7 @@ Layer:
       table: |-
         (SELECT
             way,
-            localized_name_first AS name,
+            name,
             admin_level,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels
           FROM planet_osm_polygon
@@ -2301,7 +2301,7 @@ Layer:
       table: |-
         (SELECT
             way,
-            localized_name_second AS name,
+            name,
             boundary,
             tags->'protect_class' AS protect_class,
             way_area/NULLIF(POW(!scale_denominator!*0.001*0.28,2),0) AS way_pixels
@@ -2335,7 +2335,7 @@ Layer:
             FROM
               (SELECT
                   ST_PointOnSurface(way) AS way,
-                  localized_name_second AS name,
+                  name,
                   access,
                   amenity,
                   barrier,
@@ -2351,7 +2351,7 @@ Layer:
               UNION ALL
               SELECT
                   way,
-                  localized_name_second AS name,
+                  name,
                   access,
                   amenity,
                   barrier,

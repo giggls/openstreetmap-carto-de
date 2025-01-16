@@ -6,7 +6,7 @@
       table: |-
         (SELECT
             way,
-            localized_name_first AS name,
+            name,
             CASE
               WHEN (tags->'population' ~ '^[0-9]{1,8}$') THEN (tags->'population')::INTEGER ELSE 0
             END as population,

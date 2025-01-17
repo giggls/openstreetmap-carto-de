@@ -613,6 +613,7 @@ local function gen_l10n_name(object, islinear, iscountry)
       localized_name_last = false
     else
       localized_name_last = true
+    end
     
     is_street=false
     if islinear then

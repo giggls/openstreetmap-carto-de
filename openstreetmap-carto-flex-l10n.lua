@@ -609,7 +609,7 @@ local function gen_l10n_name(object, islinear, iscountry)
     -- we use target language name first on countries and capitals
     -- in case of everything else the target language name is appended
     
-    if (object.tags['capital'] == yes) then
+    if (object.tags['capital'] == 'yes') then
       localized_name_last = false
     else
       localized_name_last = true

@@ -604,7 +604,15 @@ end
 -- @param iscountry Object is border-shape of a country and thus needs special label
 -- @return localized name
 local function gen_l10n_name(object, islinear, iscountry)
-    local names, delim, is_street
+    local names, delim, is_street, localized_name_last
+    
+    -- we use target language name first on countries and capitals
+    -- in case of everything else the target language name is appended
+    
+    if (object.tags['capital'] == yes) then
+      localized_name_last = false
+    else
+      localized_name_last = true
     
     is_street=false
     if islinear then
@@ -628,7 +636,7 @@ local function gen_l10n_name(object, islinear, iscountry)
         end
         return country_string
     else
-        names = osml10n.get_names_from_tags(object.id, object.tags, true, is_street, L10NLANG, { object:get_bbox() })
+        names = osml10n.get_names_from_tags(object.id, object.tags, localized_name_last, is_street, L10NLANG, { object:get_bbox() })
         return l10n_arr_to_str(names, delim)
     end
 end

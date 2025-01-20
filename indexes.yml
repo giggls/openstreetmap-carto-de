@@ -1,0 +1,47 @@
+# A goal with the indexes is to have them general-purpose enough to not need
+# frequent changing with stylesheet changes, but to be usable with many
+# versions, and potentially other styles.
+
+point:
+  # The point table is small, but so are the partial indexes
+  place:
+    where: place IS NOT NULL AND name IS NOT NULL
+line:
+  label:
+    where: name IS NOT NULL OR ref IS NOT NULL
+  ferry:
+    where: route = 'ferry' AND osm_id > 0
+  river:
+    where: waterway = 'river'
+  waterway:
+    where: waterway IN ('river', 'canal', 'stream', 'drain', 'ditch')
+polygon:
+  # The polygon table is by far the largest, and generally the slowest
+  name:
+    function: ST_PointOnSurface(way)
+    where: name IS NOT NULL
+  name_z6:
+    function: ST_PointOnSurface(way)
+    where: name IS NOT NULL AND way_area > 5980000
+  admin:
+    function: ST_PointOnSurface(way)
+    where: name IS NOT NULL AND boundary = 'administrative' AND admin_level IN ('0', '1', '2', '3', '4')
+  nobuilding:
+    where: building IS NULL
+  military:
+    where: (landuse = 'military' OR military = 'danger_area') AND building IS NULL
+  water:
+    where: waterway IN ('dock', 'riverbank', 'canal') OR landuse IN ('reservoir', 'basin') OR "natural" IN ('water', 'glacier')
+  way_area_z6:
+    where: way_area > 5980000
+  way_area_z10:
+    where: way_area > 23300
+roads:
+  # The roads table only has a subset of data, so it's just got some low-zoom
+  # indexes and some fairly selective ones for high zoom
+  admin_low:
+    where: boundary = 'administrative' AND admin_level IN ('0', '1', '2', '3', '4')
+  admin:
+    where: boundary = 'administrative'
+  roads_ref:
+    where: highway IS NOT NULL AND ref IS NOT NULL

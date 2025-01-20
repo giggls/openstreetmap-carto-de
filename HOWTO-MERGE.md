@@ -22,49 +22,31 @@ To merge upstream changes I currently do the following
 	git tag ${VERSION}-split
 ```
 
-3. Merge `vX.Y.Z-split` into branch `upstream+l10n`:
-```
-        git checkout upstream+l10n
-	git merge ${VERSION}-split
-```
-
-If merge has conflicts in project.mml check layer order and call:
-```
-	scripts/concat-split-project.mml.py >project.mml
-	git commit --amend
-```
-
-
-4. Tag as `vX.Y.Z-l10n0`
-
-```
-        git tag ${VERSION}-l10n0
-```
-
-5. Merge `vX.Y.Z-l10n0` into master branch:
+3. Merge `vX.Y.Z-split` into master branch:
 ```
         git checkout master
         git merge ${VERSION}-l10n0
 ```
 
-Again, if merge has conflicts in project.mml check layer order and call:
+4. If merge has conflicts in project.mml check layer order and call:
 ```
         scripts/concat-split-project.mml.py >project.mml
         git commit --amend
 ```
 
 
-6. Finally tag master branch as `vX.Y.Z-de0`:
+5. Finally tag master branch as `vX.Y.Z-de0`:
 ```
         git tag ${VERSION}-de0
 ```
 
-7. Push to GitHUB
+6. Push to GitHUB
 ```
 	git push
         git tag  --list '*l10n*' '*de*' '*split*' |xargs git push origin
 ```
 
-Sven Geggus 2023-11-30
+Sven Geggus 2024-01-20
+
 
 

@@ -8,7 +8,7 @@ XMLSTYLE := osm-de.xml
 
 TO := ./testoutput
 
-all: $(XMLSTYLE) osm-hrb.xml
+all: $(XMLSTYLE)
 
 project.mml: project.mml.d/*
 	./scripts/concat-split-project.mml.py > $@	
@@ -20,13 +20,6 @@ ifeq ($(DBSCHEME),upstream)
 else
 	carto -a $(MAPNIK_API) project.mml > $(TEMPFILE)
 endif
-	mv $(TEMPFILE) $@
-
-project-hrb.mml: project.mml
-	sed -e 's/localized_[a-z_]\+/name_hrb/g' project.mml >project-hrb.mml
-
-osm-hrb.xml: style/*.mss project-hrb.mml
-	carto -a $(MAPNIK_API) project-hrb.mml > $(TEMPFILE)
 	mv $(TEMPFILE) $@
 
 preview-de.png: $(XMLSTYLE)

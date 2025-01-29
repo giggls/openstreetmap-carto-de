@@ -13,7 +13,6 @@ localconfig.js
 .DS_Store
 
 # german style additions
-project-hrb.mml
 project-mod.mml
 project.mml
 

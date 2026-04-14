@@ -187,6 +187,22 @@
             ]
         },
         {
+            "key": "alt_name:de",
+            "object_types": [
+                "node",
+                "way",
+                "area"
+            ]
+        },
+        {
+            "key": "old_name:de",
+            "object_types": [
+                "node",
+                "way",
+                "area"
+            ]
+        },
+        {
             "key": "int_name",
             "object_types": [
                 "node",

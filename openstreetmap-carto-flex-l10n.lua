@@ -640,6 +640,32 @@ local function gen_l10n_name(object, islinear, iscountry)
         return country_string
     else
         names = osml10n.get_names_from_tags(object.id, object.tags, localized_name_last, is_street, L10NLANG, { object:get_bbox() })
+
+        local secondary_local_name = nil
+        local alt_local_name = object.tags['alt_name:' .. L10NLANG]
+        local old_local_name = object.tags['old_name:' .. L10NLANG]
+        if (alt_local_name ~= nil and alt_local_name ~= names[1] and alt_local_name ~= names[2]) then
+            secondary_local_name = alt_local_name
+        elseif (old_local_name ~= nil and old_local_name ~= names[1] and old_local_name ~= names[2]) then
+            secondary_local_name = old_local_name
+        end
+        if (secondary_local_name ~= nil)
+            local idxl, idxn
+            if localized_name_last then
+                idxl = 2 idxn = 1
+            else
+                idxl = 1 idxn = 2
+            end
+            if (names[1] == '') then
+                names[1] = names[2]
+                names[2] = '(' .. secondary_local_name .. ')'
+            elseif (names[idxl] ~= '') then
+                names[idxl] = names[idxl] .. ' (' .. secondary_local_name .. ')'
+            else
+                names[idxl] = '(' .. secondary_local_name .. ')'
+            end
+        end
+
         return l10n_arr_to_str(names, delim)
     end
 end
